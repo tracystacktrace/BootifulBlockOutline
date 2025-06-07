@@ -34,7 +34,7 @@ foxloader {
     modVersion = project.version
     modAuthors = "tracystacktrace"
     modMain = "net.tracystacktrace.bootifulblockoutline.BootifulBlockOutline"
-    modDesc("\u00A7dAdvanced settings for block outline!")
+    modDesc("\u00A7dAdvanced block outline settings!")
     modDesc()
     modDesc("\u00A76License: \u00A7aApache License 2.0")
     modDesc("\u00A76Sources: \u00A79https://github.com/tracystacktrace/BootifulBlockOutline")
