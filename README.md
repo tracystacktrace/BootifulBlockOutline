@@ -4,18 +4,27 @@ A small mod that expands the "block outline" settings for more convenient config
 
 That's... all
 
-**WARNING! This is purely a CLIENT-side mod! This probably won't work in servers!**
+This is a client-side mod, which uses [FoxLoader](https://github.com/Fox2Code/FoxLoader) mod loader for ReIndev (2.9)
+
+![alt text](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/gui.png)
+
+## Quick Guide
+
+You can input the color either using sliders or text fields.
+
+![alt text](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/gui_with_help.png)
 
 ## Installation
 
 Simply grab a `.jar` file from releases and put into `mods` folder of your instance!
 
-Want to compile by yourself? Just download the sources and run gradle build.
+Want to compile by yourself? Just download the sources and run the following command:
+```shell
+./gradlew build
+```
 
-## Loader
-
-The mod runs on [FoxLoader](https://github.com/Fox2Code/FoxLoader) loader for ReIndev (2.9).
+The output file will be located in `build/libs` folder.
 
 ## License
 
-The mod is licensed under [Apache License 2.0]()
+This mod is licensed under [Apache License 2.0]()
