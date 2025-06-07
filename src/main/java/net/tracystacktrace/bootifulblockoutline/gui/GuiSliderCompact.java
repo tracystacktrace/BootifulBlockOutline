@@ -19,4 +19,5 @@ public class GuiSliderCompact extends GuiSlider {
             this.parentScreen.applyEditsFromSliders();
         }
     }
+
 }

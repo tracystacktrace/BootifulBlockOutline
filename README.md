@@ -1,11 +1,21 @@
-# Fox Loader Example Mod
+# Bootiful Block Outline
 
-Example mod for [FoxLoader](https://github.com/Fox2Code/FoxLoader)
+A small mod that expands the "block outline" settings for more convenient configuration!
 
-Rat block texture by [@silveros](https://github.com/silverosre)
+That's... all
 
-## Documentation
+**WARNING! This is purely a CLIENT-side mod! This probably won't work in servers!**
 
-For mixins usage check here: https://github.com/2xsaiko/mixin-cheatsheet
+## Installation
 
-For spark usage check here: https://spark.lucko.me/docs/Command-Usage
+Simply grab a `.jar` file from releases and put into `mods` folder of your instance!
+
+Want to compile by yourself? Just download the sources and run gradle build.
+
+## Loader
+
+The mod runs on [FoxLoader](https://github.com/Fox2Code/FoxLoader) loader for ReIndev (2.9).
+
+## License
+
+The mod is licensed under [Apache License 2.0]()

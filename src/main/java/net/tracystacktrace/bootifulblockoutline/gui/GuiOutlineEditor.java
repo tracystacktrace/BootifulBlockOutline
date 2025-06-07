@@ -27,6 +27,7 @@ public class GuiOutlineEditor extends GuiScreen {
     private byte outlineMode = 0; //0 for default (RGB), 1 for silver mode
     private GuiTextField hexTextField;
 
+    //Internal
     private final GuiScreen parentScreen;
     protected final String screenTitle = StringTranslate.getInstance().translateKey("gui.editBlockOutline");
 
@@ -45,7 +46,7 @@ public class GuiOutlineEditor extends GuiScreen {
 
         //buttons init
         final StringTranslate translate = StringTranslate.getInstance();
-        this.controlList.add(new GuiButton(0, this.width / 2 - 100, offsetY + 100, 90, 20, translate.translateKey("gui.mode")));
+        this.controlList.add(new GuiButton(0, this.width / 2 - 100, offsetY + 100, 90, 20, translate.translateKey("bootifulblockoutline.mode." + (this.outlineMode == 0 ? "default" : "rgb"))));
         this.controlList.add(new GuiButton(1, this.width / 2 + 10, offsetY + 100, 90, 20, translate.translateKey("gui.done")));
 
         //sliders init
@@ -76,11 +77,13 @@ public class GuiOutlineEditor extends GuiScreen {
         this.hexTextField.setMaxStringLength(6);
         this.hexTextField.isEnabled = true;
         this.updateHexTextField();
+
+        //toggle if silver mode
+        this.toggleOutlineMode(this.outlineMode == 0);
     }
 
     @Override
     public void onGuiClosed() {
-        this.mc.gameSettings.saveOptions();
         Keyboard.enableRepeatEvents(false);
     }
 
@@ -95,23 +98,22 @@ public class GuiOutlineEditor extends GuiScreen {
 
     @Override
     public void keyTyped(char eventChar, int eventKey) {
-
-        if(this.redIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey)) {
+        if (this.redIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey)) {
             this.redIntTextField.textboxKeyTyped(eventChar, eventKey);
             this.applyEditsFromText();
         }
 
-        if(this.greenIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey)) {
+        if (this.greenIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey)) {
             this.greenIntTextField.textboxKeyTyped(eventChar, eventKey);
             this.applyEditsFromText();
         }
 
-        if(this.blueIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey)) {
+        if (this.blueIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey)) {
             this.blueIntTextField.textboxKeyTyped(eventChar, eventKey);
             this.applyEditsFromText();
         }
 
-        if(this.hexTextField.isFocused && BootifulBlockOutline.allowedHexKey(eventChar, eventKey)) {
+        if (this.hexTextField.isFocused && BootifulBlockOutline.allowedHexKey(eventChar, eventKey)) {
             this.hexTextField.textboxKeyTyped(eventChar, eventKey);
             this.applyEditsFromHexField();
         }
@@ -122,7 +124,7 @@ public class GuiOutlineEditor extends GuiScreen {
         }
 
         //enter quit
-        if(eventChar == '\r') {
+        if (eventChar == '\r') {
             this.saveToSettings();
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(parentScreen);
@@ -141,11 +143,14 @@ public class GuiOutlineEditor extends GuiScreen {
     @Override
     public void drawScreen(float mouseX, float mouseY, float deltaTicks) {
         this.drawDefaultBackground();
+
         this.redIntTextField.drawTextBox();
         this.greenIntTextField.drawTextBox();
         this.blueIntTextField.drawTextBox();
         this.hexTextField.drawTextBox();
+
         this.drawCenteredString(this.fontRenderer, this.screenTitle, (float) this.width / 2, 60, 0x00FFFFFF);
+
         super.drawScreen(mouseX, mouseY, deltaTicks);
 
         //draw color
@@ -154,39 +159,57 @@ public class GuiOutlineEditor extends GuiScreen {
         drawRect(
                 offsetX + 170, offsetY + 30,
                 offsetX + 170 + 70, offsetY + 30 + 50,
-                (0xFF << 24) | ((this.red & 0xFF) << 16) | ((this.green & 0xFF) << 8) | (this.blue & 0xFF)
+                (this.outlineMode == 0) ? ((0xFF << 24) | ((this.red & 0xFF) << 16) | ((this.green & 0xFF) << 8) | (this.blue & 0xFF)) : BootifulBlockOutline.getSilverARGB()
         );
     }
 
     @Override
     protected void actionPerformed(GuiButton guiButton) {
-        if(guiButton.enabled) {
-            if(guiButton.id == 1) {
+        if (guiButton.enabled) {
+            //done button
+            if (guiButton.id == 1) {
                 this.saveToSettings();
                 this.mc.gameSettings.saveOptions();
                 this.mc.displayGuiScreen(parentScreen);
             }
+
+            //toggle silver mode
+            if (guiButton.id == 0) {
+                this.outlineMode = (byte) ((this.outlineMode == 0) ? 1 : 0);
+                this.toggleOutlineMode(this.outlineMode == 0);
+                guiButton.displayString = StringTranslate.getInstance().translateKey("bootifulblockoutline.mode." + (this.outlineMode == 0 ? "default" : "rgb"));
+            }
         }
     }
 
-    public void toggleSilverMode(boolean rgbMode) {
+    public void toggleOutlineMode(boolean rgbMode) {
+        //safely de-focus fields
+        this.redIntTextField.isFocused = false;
+        this.greenIntTextField.isFocused = false;
+        this.blueIntTextField.isFocused = false;
+        this.hexTextField.isFocused = false;
+
+        //toggle stuff
+
         this.redIntTextField.isEnabled = rgbMode;
         this.greenIntTextField.isEnabled = rgbMode;
         this.blueIntTextField.isEnabled = rgbMode;
-
         this.hexTextField.isEnabled = rgbMode;
+
+        this.redIntSlider.enabled = rgbMode;
+        this.greenIntSlider.enabled = rgbMode;
+        this.blueIntSlider.enabled = rgbMode;
     }
 
     private void fetchPreviousValue() {
         //silver (aka rainbow) mode
-        if(GameSettings.outlineColor.equals("silver")) {
+        if (GameSettings.outlineColor.equals("silver")) {
             this.outlineMode = 1;
-            //TODO: Force GUI update
             return;
         }
 
         //empty (black) string
-        if(GameSettings.outlineColor.isEmpty() || GameSettings.outlineColor.equals("0x")) {
+        if (GameSettings.outlineColor.isEmpty() || GameSettings.outlineColor.equals("0x")) {
             this.outlineMode = 0;
             this.red = this.green = this.blue = 0;
             return;
@@ -201,13 +224,13 @@ public class GuiOutlineEditor extends GuiScreen {
     }
 
     public void saveToSettings() {
-        if(outlineMode == 1) {
+        if (outlineMode == 1) {
             GameSettings.outlineColor = "silver";
             GameSettings.outlineColorChanged = true;
             return;
         }
 
-        if(this.red == 0 && this.green == 0 && this.blue == 0) {
+        if (this.red == 0 && this.green == 0 && this.blue == 0) {
             GameSettings.outlineColor = "0x";
             GameSettings.outlineColorChanged = false;
         } else {
@@ -251,6 +274,9 @@ public class GuiOutlineEditor extends GuiScreen {
         this.updateHexTextField();
     }
 
+    /**
+     * Applies update edits from the hex text field
+     */
     private void applyEditsFromHexField() {
         final String safeHex = BootifulBlockOutline.autoCompleteHex(this.hexTextField.getText());
 
@@ -293,6 +319,9 @@ public class GuiOutlineEditor extends GuiScreen {
         this.blueIntTextField.moveCursorBy(4);
     }
 
+    /**
+     * Update hex text field data to current RGB value
+     */
     private void updateHexTextField() {
         final String formatted = String.format("%02X%02X%02X", this.red, this.green, this.blue);
         this.hexTextField.setText(formatted);

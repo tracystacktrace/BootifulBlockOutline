@@ -2,6 +2,8 @@ package net.tracystacktrace.bootifulblockoutline;
 
 import com.fox2code.foxloader.loader.Mod;
 
+import java.awt.*;
+
 public class BootifulBlockOutline extends Mod {
 
     public static short safeStringToShort(final String s) {
@@ -37,4 +39,9 @@ public class BootifulBlockOutline extends Mod {
         }
         return builder.toString();
     }
+
+    public static int getSilverARGB() {
+        return (Color.HSBtoRGB((float)(System.currentTimeMillis() % 5000L) / 5000.0F, 1.0F, 1.0F) & 16777215) | 0xFF000000;
+    }
+
 }
