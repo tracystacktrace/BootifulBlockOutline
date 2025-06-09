@@ -1,6 +1,9 @@
 package net.tracystacktrace.bootifulblockoutline.gui;
 
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiSlider;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.util.GameSettings;
 import net.minecraft.common.util.i18n.StringTranslate;
 import net.tracystacktrace.bootifulblockoutline.BootifulBlockOutline;
@@ -63,7 +66,7 @@ public class GuiOutlineEditor extends GuiScreen {
         this.controlList.add(this.blueIntSlider);
 
         //width sliders
-        this.widthSlider = new GuiSliderCompact(5, offsetX, offsetY + 90, 240, translate.translateKeyFormat("bootifulblockoutline.width", BootifulBlockOutline.CONFIG.selectionBoxWidth), Math.round(((BootifulBlockOutline.CONFIG.selectionBoxWidth - 1f) / 9f) * 10f) / 10f,  this);
+        this.widthSlider = new GuiSliderCompact(5, offsetX, offsetY + 90, 240, translate.translateKeyFormat("bootifulblockoutline.width", BootifulBlockOutline.CONFIG.selectionBoxWidth), Math.round(((BootifulBlockOutline.CONFIG.selectionBoxWidth - 1f) / 9f) * 10f) / 10f, this);
         this.controlList.add(this.widthSlider);
 
         //text fields init
@@ -288,7 +291,7 @@ public class GuiOutlineEditor extends GuiScreen {
         this.updateHexTextField();
 
         //force update width slider string
-        this.widthSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.width", String.format("%.1f", 1f + this.widthSlider.sliderValue * 9f)) ;
+        this.widthSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.width", String.format("%.1f", 1f + this.widthSlider.sliderValue * 9f));
     }
 
     /**

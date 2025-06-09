@@ -21,7 +21,7 @@ public class GuiSliderCompact extends GuiSlider {
     @Override
     protected void mouseDragged(Minecraft minecraft, float x, float y) {
         super.mouseDragged(minecraft, x, y);
-        if(this.visible && this.dragging) {
+        if (this.visible && this.dragging) {
             this.parentScreen.applyEditsFromSliders();
         }
     }
