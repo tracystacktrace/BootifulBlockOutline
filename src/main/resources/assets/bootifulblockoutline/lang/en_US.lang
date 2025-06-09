@@ -1,2 +1,9 @@
 bootifulblockoutline.mode.default=Default Mode
 bootifulblockoutline.mode.rgb=Silver Mode
+
+bootifulblockoutline.red=Red: %s
+bootifulblockoutline.green=Green: %s
+bootifulblockoutline.blue=Blue: %s
+bootifulblockoutline.width=Width: %s
+
+config.bootifulblockoutline.selectionBoxWidth.name=§cPlease use GUI!!!§r

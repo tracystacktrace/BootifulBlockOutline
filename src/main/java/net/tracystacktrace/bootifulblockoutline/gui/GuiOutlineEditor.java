@@ -47,22 +47,23 @@ public class GuiOutlineEditor extends GuiScreen {
         final int offsetX = this.width / 2 - 120;
         final int offsetY = this.height / 2 - 55;
 
-        //buttons init
         final StringTranslate translate = StringTranslate.getInstance();
+
+        //buttons init
         this.controlList.add(new GuiButton(0, this.width / 2 - 100, offsetY + 120, 90, 20, translate.translateKey("bootifulblockoutline.mode." + (this.outlineMode == 0 ? "default" : "rgb"))));
         this.controlList.add(new GuiButton(1, this.width / 2 + 10, offsetY + 120, 90, 20, translate.translateKey("gui.done")));
 
         //sliders init
-        this.redIntSlider = new GuiSliderCompact(2, offsetX, offsetY, "Red: " + this.red, this.red / 255.0F, this);
-        this.greenIntSlider = new GuiSliderCompact(3, offsetX, offsetY + 30, "Green: " + this.green, this.green / 255.0F, this);
-        this.blueIntSlider = new GuiSliderCompact(4, offsetX, offsetY + 60, "Blue: " + this.blue, this.blue / 255.0F, this);
+        this.redIntSlider = new GuiSliderCompact(2, offsetX, offsetY, translate.translateKeyFormat("bootifulblockoutline.red", this.red), this.red / 255.0F, this);
+        this.greenIntSlider = new GuiSliderCompact(3, offsetX, offsetY + 30, translate.translateKeyFormat("bootifulblockoutline.green", this.green), this.green / 255.0F, this);
+        this.blueIntSlider = new GuiSliderCompact(4, offsetX, offsetY + 60, translate.translateKeyFormat("bootifulblockoutline.blue", this.blue), this.blue / 255.0F, this);
 
         this.controlList.add(this.redIntSlider);
         this.controlList.add(this.greenIntSlider);
         this.controlList.add(this.blueIntSlider);
 
         //width sliders
-        this.widthSlider = new GuiSliderCompact(5, offsetX, offsetY + 90, 240, "Width: " + BootifulBlockOutline.CONFIG.selectionBoxWidth, Math.round(((BootifulBlockOutline.CONFIG.selectionBoxWidth - 1f) / 9f) * 10f) / 10f,  this);
+        this.widthSlider = new GuiSliderCompact(5, offsetX, offsetY + 90, 240, translate.translateKeyFormat("bootifulblockoutline.width", BootifulBlockOutline.CONFIG.selectionBoxWidth), Math.round(((BootifulBlockOutline.CONFIG.selectionBoxWidth - 1f) / 9f) * 10f) / 10f,  this);
         this.controlList.add(this.widthSlider);
 
         //text fields init
@@ -277,16 +278,17 @@ public class GuiOutlineEditor extends GuiScreen {
         this.green = (short) (this.greenIntSlider.sliderValue * 255.0F + 0.5F);
         this.blue = (short) (this.blueIntSlider.sliderValue * 255.0F + 0.5F);
 
-        this.redIntSlider.displayString = "Red: " + this.red;
-        this.greenIntSlider.displayString = "Green: " + this.green;
-        this.blueIntSlider.displayString = "Blue: " + this.blue;
+        final StringTranslate translate = StringTranslate.getInstance();
+        this.redIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.red", this.red);
+        this.greenIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.green", this.green);
+        this.blueIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.blue", this.blue);
 
         //force update of text fields values
         this.updateTextFields();
         this.updateHexTextField();
 
         //force update width slider string
-        this.widthSlider.displayString = String.format("Width: %.1f", 1f + this.widthSlider.sliderValue * 9f);
+        this.widthSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.width", String.format("%.1f", 1f + this.widthSlider.sliderValue * 9f)) ;
     }
 
     /**
@@ -314,9 +316,10 @@ public class GuiOutlineEditor extends GuiScreen {
         this.greenIntSlider.sliderValue = this.green / 255.0F;
         this.blueIntSlider.sliderValue = this.blue / 255.0F;
 
-        this.redIntSlider.displayString = "Red: " + this.red;
-        this.greenIntSlider.displayString = "Green: " + this.green;
-        this.blueIntSlider.displayString = "Blue: " + this.blue;
+        final StringTranslate translate = StringTranslate.getInstance();
+        this.redIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.red", this.red);
+        this.greenIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.green", this.green);
+        this.blueIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.blue", this.blue);
     }
 
     /**
