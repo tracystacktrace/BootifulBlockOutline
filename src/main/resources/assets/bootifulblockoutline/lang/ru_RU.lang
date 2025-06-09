@@ -1,0 +1,9 @@
+bootifulblockoutline.mode.default=Стандартный
+bootifulblockoutline.mode.rgb=Цветной
+
+bootifulblockoutline.red=Красный: %s
+bootifulblockoutline.green=Зеленый: %s
+bootifulblockoutline.blue=Синий: %s
+bootifulblockoutline.width=Толщина: %s
+
+config.bootifulblockoutline.selectionBoxWidth.name=§cИСПОЛЬЗУЙТЕ МЕНЮ!!!§r
