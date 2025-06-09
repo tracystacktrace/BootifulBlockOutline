@@ -4,6 +4,7 @@
   "package": "net.tracystacktrace.bootifulblockoutline.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinGuiVideoSettings"
+    "MixinGuiVideoSettings",
+    "MixinRenderGlobal"
   ]
 }

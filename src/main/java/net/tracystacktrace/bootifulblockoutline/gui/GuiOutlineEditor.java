@@ -23,6 +23,9 @@ public class GuiOutlineEditor extends GuiScreen {
     private GuiSliderCompact blueIntSlider;
     private short blue;
 
+    //Width
+    private GuiSliderCompact widthSlider;
+
     //Common
     private byte outlineMode = 0; //0 for default (RGB), 1 for silver mode
     private GuiTextField hexTextField;
@@ -42,12 +45,12 @@ public class GuiOutlineEditor extends GuiScreen {
         Keyboard.enableRepeatEvents(true);
 
         final int offsetX = this.width / 2 - 120;
-        final int offsetY = this.height / 2 - 40;
+        final int offsetY = this.height / 2 - 55;
 
         //buttons init
         final StringTranslate translate = StringTranslate.getInstance();
-        this.controlList.add(new GuiButton(0, this.width / 2 - 100, offsetY + 100, 90, 20, translate.translateKey("bootifulblockoutline.mode." + (this.outlineMode == 0 ? "default" : "rgb"))));
-        this.controlList.add(new GuiButton(1, this.width / 2 + 10, offsetY + 100, 90, 20, translate.translateKey("gui.done")));
+        this.controlList.add(new GuiButton(0, this.width / 2 - 100, offsetY + 120, 90, 20, translate.translateKey("bootifulblockoutline.mode." + (this.outlineMode == 0 ? "default" : "rgb"))));
+        this.controlList.add(new GuiButton(1, this.width / 2 + 10, offsetY + 120, 90, 20, translate.translateKey("gui.done")));
 
         //sliders init
         this.redIntSlider = new GuiSliderCompact(2, offsetX, offsetY, "Red: " + this.red, this.red / 255.0F, this);
@@ -57,6 +60,10 @@ public class GuiOutlineEditor extends GuiScreen {
         this.controlList.add(this.redIntSlider);
         this.controlList.add(this.greenIntSlider);
         this.controlList.add(this.blueIntSlider);
+
+        //width sliders
+        this.widthSlider = new GuiSliderCompact(5, offsetX, offsetY + 90, 240, "Width: " + BootifulBlockOutline.CONFIG.selectionBoxWidth, Math.round(((BootifulBlockOutline.CONFIG.selectionBoxWidth - 1f) / 9f) * 10f) / 10f,  this);
+        this.controlList.add(this.widthSlider);
 
         //text fields init
         this.redIntTextField = new GuiTextField(offsetX + 110, offsetY, 50, 20, String.valueOf(this.red));
@@ -149,16 +156,17 @@ public class GuiOutlineEditor extends GuiScreen {
         this.blueIntTextField.drawTextBox();
         this.hexTextField.drawTextBox();
 
-        this.drawCenteredString(this.fontRenderer, this.screenTitle, (float) this.width / 2, 60, 0x00FFFFFF);
+        final int offsetX = this.width / 2 - 120;
+        final int offsetY = this.height / 2 - 40;
+
+        this.drawCenteredString(this.fontRenderer, this.screenTitle, (float) this.width / 2, offsetY - 34, 0x00FFFFFF);
 
         super.drawScreen(mouseX, mouseY, deltaTicks);
 
         //draw color
-        final int offsetX = this.width / 2 - 120;
-        final int offsetY = this.height / 2 - 40;
         drawRect(
-                offsetX + 170, offsetY + 30,
-                offsetX + 170 + 70, offsetY + 30 + 50,
+                offsetX + 170, offsetY + 15,
+                offsetX + 170 + 70, offsetY + 15 + 50,
                 (this.outlineMode == 0) ? ((0xFF << 24) | ((this.red & 0xFF) << 16) | ((this.green & 0xFF) << 8) | (this.blue & 0xFF)) : BootifulBlockOutline.getSilverARGB()
         );
     }
@@ -224,6 +232,10 @@ public class GuiOutlineEditor extends GuiScreen {
     }
 
     public void saveToSettings() {
+        //save width
+        BootifulBlockOutline.CONFIG.selectionBoxWidth = Math.round((1f + this.widthSlider.sliderValue * 9f) * 10f) / 10f;
+        BootifulBlockOutline.forceSaveConfig();
+
         if (outlineMode == 1) {
             GameSettings.outlineColor = "silver";
             GameSettings.outlineColorChanged = true;
@@ -272,6 +284,9 @@ public class GuiOutlineEditor extends GuiScreen {
         //force update of text fields values
         this.updateTextFields();
         this.updateHexTextField();
+
+        //force update width slider string
+        this.widthSlider.displayString = String.format("Width: %.1f", 1f + this.widthSlider.sliderValue * 9f);
     }
 
     /**

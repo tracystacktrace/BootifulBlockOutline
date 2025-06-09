@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinGuiVideoSettings extends GuiScreen {
 
     @Inject(method = "actionPerformed", cancellable = true, at = @At(value = "HEAD"))
-    private void injectBootifulOutlineGui(GuiButton button, CallbackInfo ci) {
+    private void bootifulblockoutline$injectOpenGUI(GuiButton button, CallbackInfo ci) {
         if (button.enabled && button.id == 107) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(new GuiOutlineEditor(this));

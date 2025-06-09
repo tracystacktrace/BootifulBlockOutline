@@ -12,6 +12,12 @@ public class GuiSliderCompact extends GuiSlider {
         this.parentScreen = parentScreen;
     }
 
+    public GuiSliderCompact(int _id, int x, int y, int width, String text, float value, GuiOutlineEditor parentScreen) {
+        super(_id, x, y, text, value);
+        this.width = width;
+        this.parentScreen = parentScreen;
+    }
+
     @Override
     protected void mouseDragged(Minecraft minecraft, float x, float y) {
         super.mouseDragged(minecraft, x, y);
