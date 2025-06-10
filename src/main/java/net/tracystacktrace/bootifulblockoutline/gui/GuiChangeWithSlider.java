@@ -49,15 +49,15 @@ public class GuiChangeWithSlider extends GuiScreen implements IUpdateSliders {
 
     @Override
     protected void actionPerformed(GuiButton guiButton) {
-        if(guiButton.enabled) {
-            if(guiButton.id == 1) {
+        if (guiButton.enabled) {
+            if (guiButton.id == 1) {
                 this.value = initialValue;
                 this.slider.sliderValue = BootifulBlockOutline.normalizeFloat(this.initialValue, 1f, 4f);
                 this.slider.displayString = StringTranslate.getInstance().translateKeyFormat(this.name, this.value);
                 return;
             }
 
-            if(guiButton.id == 2) {
+            if (guiButton.id == 2) {
                 this.saveHandler.accept(this.value);
                 this.mc.displayGuiScreen(this.parentScreen);
                 return;

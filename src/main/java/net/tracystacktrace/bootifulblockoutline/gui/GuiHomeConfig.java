@@ -31,7 +31,7 @@ public class GuiHomeConfig extends GuiScreen {
         this.controlList.add(this.modeBlockOutline = new GuiButtonMultipleChoice(
                 0, offsetX, offsetY + 11, 160, 20,
                 translate.translateKey("bootifulblockoutline.config.block"),
-                new String[] {
+                new String[]{
                         translate.translateKey("bootifulblockoutline.disabled"),
                         translate.translateKey("bootifulblockoutline.static"),
                         translate.translateKey("bootifulblockoutline.rainbow")
@@ -43,8 +43,8 @@ public class GuiHomeConfig extends GuiScreen {
         //entity outline management
         this.controlList.add(this.modeEntityOutline = new GuiButtonMultipleChoice(
                 3, offsetX, offsetY + 11 + 25, 160, 20,
-                translate.translateKey("bootifulblockoutline.config.block"),
-                new String[] {
+                translate.translateKey("bootifulblockoutline.config.entity"),
+                new String[]{
                         translate.translateKey("bootifulblockoutline.disabled"),
                         translate.translateKey("bootifulblockoutline.static"),
                         translate.translateKey("bootifulblockoutline.rainbow"),
@@ -73,11 +73,11 @@ public class GuiHomeConfig extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton guiButton) {
-        if(guiButton.enabled) {
+        if (guiButton.enabled) {
             switch (guiButton.id) {
                 case 0:
                 case 3: {
-                    ((GuiButtonMultipleChoice)guiButton).moveNextElement();
+                    ((GuiButtonMultipleChoice) guiButton).moveNextElement();
                     this.onModeChange();
                     return;
                 }
@@ -169,12 +169,12 @@ public class GuiHomeConfig extends GuiScreen {
 
     private void onModeChange() {
         //block outline
-        ((GuiButton)this.controlList.get(2)).enabled = this.modeBlockOutline.getCurrentIndex() == 1;
-        ((GuiButton)this.controlList.get(1)).enabled = this.modeBlockOutline.getCurrentIndex() != 0;
+        ((GuiButton) this.controlList.get(2)).enabled = this.modeBlockOutline.getCurrentIndex() == 1;
+        ((GuiButton) this.controlList.get(1)).enabled = this.modeBlockOutline.getCurrentIndex() != 0;
 
         //entity outline
-        ((GuiButton)this.controlList.get(5)).enabled = this.modeEntityOutline.getCurrentIndex() == 1;
-        ((GuiButton)this.controlList.get(4)).enabled = this.modeEntityOutline.getCurrentIndex() != 0;
+        ((GuiButton) this.controlList.get(5)).enabled = this.modeEntityOutline.getCurrentIndex() == 1;
+        ((GuiButton) this.controlList.get(4)).enabled = this.modeEntityOutline.getCurrentIndex() != 0;
     }
 
     private void saveToConfig() {

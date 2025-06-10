@@ -41,7 +41,7 @@ public class BootifulBlockOutline extends Mod {
     }
 
     public static boolean withinUnsignedByte(short value, char input) {
-        if(Character.isDigit(input))
+        if (Character.isDigit(input))
             return Short.parseShort(String.valueOf(value) + input) < 256;
         return true;
     }
@@ -62,7 +62,6 @@ public class BootifulBlockOutline extends Mod {
         }
         return builder.toString();
     }
-
 
     public static float normalizeFloat(float value, float lower, float upper) {
         return Math.round(((value - lower) / upper) * 10f) / 10f;
@@ -98,13 +97,15 @@ public class BootifulBlockOutline extends Mod {
                 configComment = "0 - disabled (no render), 1 - ARGB static color, 2 - RGB rainbow color",
                 lowerBounds = 0, upperBounds = 2
         )
-        public int entityOutlineMode = 1; //0 - off, 1 - ARGB, 2 - rainbow
+        public byte entityOutlineMode = 1; //0 - off, 1 - ARGB, 2 - rainbow
 
         @ConfigEntry(configComment = "Follows 0xAARRGGBB format but int")
         public int entityOutlineColor = 0xFF000000; //AARRGGBB
 
         @ConfigEntry(lowerBounds = 1.0, upperBounds = 4.0)
         public float entityOutlineWidth = 2.0f;
+
+        /* work in progress */
 
 //        @ConfigEntry(configComment = "Follows 0xAARRGGBB format but int")
 //        public int colorOutlineUnbreakable = 0xFF000000; //AARRGGBB

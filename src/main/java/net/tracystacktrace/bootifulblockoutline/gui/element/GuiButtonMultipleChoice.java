@@ -17,10 +17,6 @@ public class GuiButtonMultipleChoice extends GuiButton {
         this.displayString = String.format(this.descriptor, this.options[index]);
     }
 
-    public GuiButtonMultipleChoice(int _id, int x, int y, String descriptor, String[] options) {
-        this(_id, x, y, 200, 20, descriptor, options);
-    }
-
     public void setElementIndex(int i) {
         if (i >= 0 && i < options.length) {
             this.index = i;
