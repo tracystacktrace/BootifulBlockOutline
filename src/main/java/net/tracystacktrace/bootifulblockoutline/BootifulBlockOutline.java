@@ -62,7 +62,7 @@ public class BootifulBlockOutline extends Mod {
     }
 
     public static class ModConfig {
-        @ConfigEntry(lowerBounds = 1.0, upperBounds = 10.0)
+        @ConfigEntry(lowerBounds = 1.0, upperBounds = 4.0)
         public float selectionBoxWidth = 2.0f;
     }
 }

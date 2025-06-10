@@ -66,7 +66,7 @@ public class GuiOutlineEditor extends GuiScreen {
         this.controlList.add(this.blueIntSlider);
 
         //width sliders
-        this.widthSlider = new GuiSliderCompact(5, offsetX, offsetY + 90, 240, translate.translateKeyFormat("bootifulblockoutline.width", BootifulBlockOutline.CONFIG.selectionBoxWidth), Math.round(((BootifulBlockOutline.CONFIG.selectionBoxWidth - 1f) / 9f) * 10f) / 10f, this);
+        this.widthSlider = new GuiSliderCompact(5, offsetX, offsetY + 90, 240, translate.translateKeyFormat("bootifulblockoutline.width", BootifulBlockOutline.CONFIG.selectionBoxWidth), Math.round(((BootifulBlockOutline.CONFIG.selectionBoxWidth - 1f) / 3f) * 10f) / 10f, this);
         this.controlList.add(this.widthSlider);
 
         //text fields init
@@ -237,7 +237,7 @@ public class GuiOutlineEditor extends GuiScreen {
 
     public void saveToSettings() {
         //save width
-        BootifulBlockOutline.CONFIG.selectionBoxWidth = Math.round((1f + this.widthSlider.sliderValue * 9f) * 10f) / 10f;
+        BootifulBlockOutline.CONFIG.selectionBoxWidth = Math.round((1f + this.widthSlider.sliderValue * 3f) * 10f) / 10f;
         BootifulBlockOutline.forceSaveConfig();
 
         if (outlineMode == 1) {
@@ -291,7 +291,7 @@ public class GuiOutlineEditor extends GuiScreen {
         this.updateHexTextField();
 
         //force update width slider string
-        this.widthSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.width", String.format("%.1f", 1f + this.widthSlider.sliderValue * 9f));
+        this.widthSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.width", String.format("%.1f", 1f + this.widthSlider.sliderValue * 3f));
     }
 
     /**

@@ -1,10 +1,12 @@
 package net.tracystacktrace.bootifulblockoutline.mixins;
 
 import net.minecraft.client.renderer.world.RenderGlobal;
+import net.minecraft.common.util.math.AxisAlignedBB;
 import net.tracystacktrace.bootifulblockoutline.BootifulBlockOutline;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(RenderGlobal.class)
@@ -15,5 +17,10 @@ public class MixinRenderGlobal {
         GL11.glLineWidth(BootifulBlockOutline.CONFIG.selectionBoxWidth);
     }
 
+    @ModifyVariable(method = "drawOutlinedBoundingBox", at = @At("STORE"), ordinal = 0, argsOnly = true)
+    private AxisAlignedBB injected(AxisAlignedBB aabb) {
+        float offset = (BootifulBlockOutline.CONFIG.selectionBoxWidth / 2.0f) * 0.002f;
+        return aabb.expand(offset, offset, offset);
+    }
 
 }
