@@ -1,14 +1,23 @@
-bootifulblockoutline.mode.default=Стандартный
-bootifulblockoutline.mode.rgb=Цветной
-
 bootifulblockoutline.config.title=Настройка отображения контура блока/существа
 bootifulblockoutline.config.block=Контур блока: %s
 bootifulblockoutline.config.entity=Контур существа: %s
 
+bootifulblockoutline.title.argb.block=Изменить цвет контура блока
+bootifulblockoutline.title.argb.entity=Изменить цвет контура существа
+
+bootifulblockoutline.title.width.block=Изменить ширину контура блока
+bootifulblockoutline.title.width.entity=Изменить ширину контура существа
+
 bootifulblockoutline.button.argb=§fA§cR§aG§9B
 bootifulblockoutline.button.width=§f← - →
 
+bootifulblockoutline.slider.width.block=Ширина контура блока: %s
+bootifulblockoutline.slider.width.entity=Ширина контура существа: %s
+
 bootifulblockoutline.reset=Сбросить
+bootifulblockoutline.static=Один цвет
+bootifulblockoutline.rainbow=Радуга
+bootifulblockoutline.disabled=Выключено
 
 bootifulblockoutline.red=Красный: %s
 bootifulblockoutline.green=Зеленый: %s

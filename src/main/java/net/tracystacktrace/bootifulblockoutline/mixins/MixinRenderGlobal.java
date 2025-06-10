@@ -14,12 +14,12 @@ public class MixinRenderGlobal {
 
     @Redirect(method = "drawSelectionBox", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glLineWidth(F)V"))
     private void bootifulblockoutline$injectWidth(float width) {
-        GL11.glLineWidth(BootifulBlockOutline.CONFIG.selectionBoxWidth);
+        GL11.glLineWidth(BootifulBlockOutline.CONFIG.blockOutlineWidth);
     }
 
     @ModifyVariable(method = "drawOutlinedBoundingBox", at = @At("STORE"), ordinal = 0, argsOnly = true)
     private AxisAlignedBB injected(AxisAlignedBB aabb) {
-        float offset = (BootifulBlockOutline.CONFIG.selectionBoxWidth / 2.0f) * 0.002f;
+        float offset = (BootifulBlockOutline.CONFIG.blockOutlineWidth / 2.0f) * 0.002f;
         return aabb.expand(offset, offset, offset);
     }
 

@@ -84,23 +84,29 @@ public class BootifulBlockOutline extends Mod {
                 configComment = "0 - disabled (no render), 1 - ARGB static color, 2 - RGB rainbow color",
                 lowerBounds = 0, upperBounds = 2
         )
-        public byte selectionBoxMode = 0; //0 - off, 1 - ARGB, 2 - rainbow
+        public byte blockOutlineMode = 1; //0 - off, 1 - ARGB, 2 - rainbow
 
         @ConfigEntry(configComment = "Follows 0xAARRGGBB format but int")
-        public int selectionBoxColor = 0xFF000000; //AARRGGBB
+        public int blockOutlineColor = 0xFF000000; //AARRGGBB
 
         @ConfigEntry(lowerBounds = 1.0, upperBounds = 4.0)
-        public float selectionBoxWidth = 2.0f;
+        public float blockOutlineWidth = 2.0f;
 
         /* entity hitbox */
 
-        @ConfigEntry
-        public boolean enableEntityHitbox = true;
+        @ConfigEntry(
+                configComment = "0 - disabled (no render), 1 - ARGB static color, 2 - RGB rainbow color",
+                lowerBounds = 0, upperBounds = 2
+        )
+        public int entityOutlineMode = 1; //0 - off, 1 - ARGB, 2 - rainbow
 
         @ConfigEntry(configComment = "Follows 0xAARRGGBB format but int")
-        public int colorEntityHitbox = 0xFF000000; //AARRGGBB
+        public int entityOutlineColor = 0xFF000000; //AARRGGBB
 
-        @ConfigEntry(configComment = "Follows 0xAARRGGBB format but int")
-        public int colorOutlineUnbreakable = 0xFF000000; //AARRGGBB
+        @ConfigEntry(lowerBounds = 1.0, upperBounds = 4.0)
+        public float entityOutlineWidth = 2.0f;
+
+//        @ConfigEntry(configComment = "Follows 0xAARRGGBB format but int")
+//        public int colorOutlineUnbreakable = 0xFF000000; //AARRGGBB
     }
 }
