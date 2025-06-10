@@ -1,3 +1,5 @@
+bootifulblockoutline.button.entrypoint=Контур блока/существа
+
 bootifulblockoutline.config.title=Настройка отображения контура блока/существа
 bootifulblockoutline.config.block=Контур блока: %s
 bootifulblockoutline.config.entity=Контур существа: %s

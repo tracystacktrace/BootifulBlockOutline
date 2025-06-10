@@ -1,3 +1,5 @@
+bootifulblockoutline.button.entrypoint=Block/Entity Outline
+
 bootifulblockoutline.config.title=Configure Block/Entity Outline
 bootifulblockoutline.config.block=Block Outline: %s
 bootifulblockoutline.config.entity=Entity Outline: %s

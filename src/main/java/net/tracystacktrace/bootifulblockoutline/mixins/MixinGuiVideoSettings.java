@@ -3,6 +3,7 @@ package net.tracystacktrace.bootifulblockoutline.mixins;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiVideoSettings;
+import net.minecraft.common.util.i18n.StringTranslate;
 import net.tracystacktrace.bootifulblockoutline.gui.GuiHomeConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,6 +20,11 @@ public class MixinGuiVideoSettings extends GuiScreen {
             this.mc.displayGuiScreen(new GuiHomeConfig(this));
             ci.cancel();
         }
+    }
+
+    @Inject(method = "initGui", at = @At("TAIL"))
+    private void bootifulblockoutline$injectGiveNiceName(CallbackInfo ci) {
+        ((GuiButton)this.controlList.get(5)).displayString = StringTranslate.getInstance().translateKey("bootifulblockoutline.button.entrypoint");
     }
 
 }
