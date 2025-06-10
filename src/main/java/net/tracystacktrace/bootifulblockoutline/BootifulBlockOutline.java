@@ -28,12 +28,12 @@ public class BootifulBlockOutline extends Mod {
         return (short) Math.max(0, Math.min(255, Integer.parseInt(s)));
     }
 
-    public static boolean allowedEditKey(char eventChar, int eventKey) {
+    public static boolean isValidInputDigit(char eventChar, int eventKey) {
         return Character.isDigit(eventChar) ||
                 eventKey == 14 || eventKey == 203 || eventKey == 205; //left, right and backspace
     }
 
-    public static boolean allowedHexKey(char c, int eventKey) {
+    public static boolean isValidInputHEX(char c, int eventKey) {
         return (c >= '0' && c <= '9') ||
                 (c >= 'a' && c <= 'f') ||
                 (c >= 'A' && c <= 'F') ||
@@ -46,18 +46,18 @@ public class BootifulBlockOutline extends Mod {
         return true;
     }
 
-    public static String autoCompleteHex(String damaged) {
-        if (damaged.length() == 6) {
+    public static String fixColorHex(String damaged) {
+        if (damaged.length() == 8) {
             return damaged;
         }
 
-        if (damaged.length() > 6) {
-            return damaged.substring(0, 6);
+        if (damaged.length() > 8) {
+            return damaged.substring(0, 8);
         }
 
         StringBuilder builder = new StringBuilder();
         builder.append(damaged);
-        for (int i = 0; i < 6 - damaged.length(); i++) {
+        for (int i = 0; i < 8 - damaged.length(); i++) {
             builder.append('0');
         }
         return builder.toString();

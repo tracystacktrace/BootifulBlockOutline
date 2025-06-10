@@ -120,27 +120,27 @@ public class GuiOutlineEditor extends GuiScreen {
 
     @Override
     public void keyTyped(char eventChar, int eventKey) {
-        if (this.redIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.red, eventChar)) {
+        if (this.redIntTextField.isFocused && BootifulBlockOutline.isValidInputDigit(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.red, eventChar)) {
             this.redIntTextField.textboxKeyTyped(eventChar, eventKey);
             this.applyEditsFromText();
         }
 
-        if (this.greenIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.green, eventChar)) {
+        if (this.greenIntTextField.isFocused && BootifulBlockOutline.isValidInputDigit(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.green, eventChar)) {
             this.greenIntTextField.textboxKeyTyped(eventChar, eventKey);
             this.applyEditsFromText();
         }
 
-        if (this.blueIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.blue, eventChar)) {
+        if (this.blueIntTextField.isFocused && BootifulBlockOutline.isValidInputDigit(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.blue, eventChar)) {
             this.blueIntTextField.textboxKeyTyped(eventChar, eventKey);
             this.applyEditsFromText();
         }
 
-        if (this.alphaIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.alpha, eventChar)) {
+        if (this.alphaIntTextField.isFocused && BootifulBlockOutline.isValidInputDigit(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.alpha, eventChar)) {
             this.alphaIntTextField.textboxKeyTyped(eventChar, eventKey);
             this.applyEditsFromText();
         }
 
-        if (this.hexTextField.isFocused && BootifulBlockOutline.allowedHexKey(eventChar, eventKey)) {
+        if (this.hexTextField.isFocused && BootifulBlockOutline.isValidInputHEX(eventChar, eventKey)) {
             this.hexTextField.textboxKeyTyped(eventChar, eventKey);
             this.applyEditsFromHexField();
         }
@@ -261,7 +261,7 @@ public class GuiOutlineEditor extends GuiScreen {
      * Applies update edits from the hex text field
      */
     private void applyEditsFromHexField() {
-        final String safeHex = BootifulBlockOutline.autoCompleteHex(this.hexTextField.getText());
+        final String safeHex = BootifulBlockOutline.fixColorHex(this.hexTextField.getText());
 
         this.alpha = (short) Integer.parseInt(safeHex.substring(0, 2), 16);
         this.red = (short) Integer.parseInt(safeHex.substring(2, 4), 16);
