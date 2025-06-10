@@ -63,6 +63,15 @@ public class BootifulBlockOutline extends Mod {
         return builder.toString();
     }
 
+
+    public static float normalizeFloat(float value, float lower, float upper) {
+        return Math.round(((value - lower) / upper) * 10f) / 10f;
+    }
+
+    public static float denormalizeFloat(float value, float lower, float upper) {
+        return Math.round((lower + value * upper) * 10f) / 10f;
+    }
+
     public static int getSilverARGB() {
         return (Color.HSBtoRGB((float) (System.currentTimeMillis() % 5000L) / 5000.0F, 1.0F, 1.0F) & 16777215) | 0xFF000000;
     }

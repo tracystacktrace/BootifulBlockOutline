@@ -7,4 +7,6 @@ bootifulblockoutline.blue=Blue: %s
 bootifulblockoutline.alpha=Alpha: %s
 bootifulblockoutline.width=Width: %s
 
+bootifulblockoutline.reset=Reset
+
 config.bootifulblockoutline.selectionBoxWidth.name=§cPlease use GUI!!!§r

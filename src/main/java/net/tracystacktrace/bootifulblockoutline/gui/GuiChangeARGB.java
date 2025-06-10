@@ -6,11 +6,13 @@ import net.minecraft.client.gui.GuiSlider;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.common.util.i18n.StringTranslate;
 import net.tracystacktrace.bootifulblockoutline.BootifulBlockOutline;
+import net.tracystacktrace.bootifulblockoutline.gui.element.GuiSliderCompact;
+import net.tracystacktrace.bootifulblockoutline.gui.element.IUpdateSliders;
 import org.lwjgl.input.Keyboard;
 
 import java.util.function.IntConsumer;
 
-public class GuiOutlineEditor extends GuiScreen {
+public class GuiChangeARGB extends GuiScreen implements IUpdateSliders {
 
     //Red
     private GuiTextField redIntTextField;
@@ -40,7 +42,7 @@ public class GuiOutlineEditor extends GuiScreen {
     private final IntConsumer handleResult;
     protected final String screenTitle;
 
-    public GuiOutlineEditor(GuiScreen parentScreen, String title, int argb, IntConsumer onAcceptChange) {
+    public GuiChangeARGB(GuiScreen parentScreen, String title, int argb, IntConsumer onAcceptChange) {
         this.parentScreen = parentScreen;
         this.screenTitle = StringTranslate.getInstance().translateKey(title);
         this.handleResult = onAcceptChange;
@@ -74,10 +76,6 @@ public class GuiOutlineEditor extends GuiScreen {
         this.controlList.add(this.blueIntSlider);
         this.controlList.add(this.alphaIntSlider);
 
-        //width sliders
-        //this.widthSlider = new GuiSliderCompact(5, offsetX, offsetY + 90, 240, translate.translateKeyFormat("bootifulblockoutline.width", BootifulBlockOutline.CONFIG.selectionBoxWidth), Math.round(((BootifulBlockOutline.CONFIG.selectionBoxWidth - 1f) / 3f) * 10f) / 10f, this);
-        //this.controlList.add(this.widthSlider);
-
         //text fields init
         this.redIntTextField = new GuiTextField(offsetX + 110, offsetY, 50, 20, String.valueOf(this.red));
         this.greenIntTextField = new GuiTextField(offsetX + 110, offsetY + 30, 50, 20, String.valueOf(this.green));
@@ -100,7 +98,7 @@ public class GuiOutlineEditor extends GuiScreen {
         this.hexTextField = new GuiTextField(offsetX + 170, offsetY, 70, 20, "");
         this.hexTextField.setMaxStringLength(8);
         this.hexTextField.isEnabled = true;
-        this.updateHexTextField();
+        this.updateHexTextFieldDisplayString();
     }
 
     @Override
@@ -122,27 +120,27 @@ public class GuiOutlineEditor extends GuiScreen {
     public void keyTyped(char eventChar, int eventKey) {
         if (this.redIntTextField.isFocused && BootifulBlockOutline.isValidInputDigit(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.red, eventChar)) {
             this.redIntTextField.textboxKeyTyped(eventChar, eventKey);
-            this.applyEditsFromText();
+            this.onUpdateFromTextFields();
         }
 
         if (this.greenIntTextField.isFocused && BootifulBlockOutline.isValidInputDigit(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.green, eventChar)) {
             this.greenIntTextField.textboxKeyTyped(eventChar, eventKey);
-            this.applyEditsFromText();
+            this.onUpdateFromTextFields();
         }
 
         if (this.blueIntTextField.isFocused && BootifulBlockOutline.isValidInputDigit(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.blue, eventChar)) {
             this.blueIntTextField.textboxKeyTyped(eventChar, eventKey);
-            this.applyEditsFromText();
+            this.onUpdateFromTextFields();
         }
 
         if (this.alphaIntTextField.isFocused && BootifulBlockOutline.isValidInputDigit(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.alpha, eventChar)) {
             this.alphaIntTextField.textboxKeyTyped(eventChar, eventKey);
-            this.applyEditsFromText();
+            this.onUpdateFromTextFields();
         }
 
         if (this.hexTextField.isFocused && BootifulBlockOutline.isValidInputHEX(eventChar, eventKey)) {
             this.hexTextField.textboxKeyTyped(eventChar, eventKey);
-            this.applyEditsFromHexField();
+            this.onUpdateFromHexField();
         }
 
         //esc quit
@@ -152,8 +150,7 @@ public class GuiOutlineEditor extends GuiScreen {
 
         //enter quit
         if (eventChar == '\r') {
-            this.saveToSettings();
-            this.mc.gameSettings.saveOptions();
+            this.saveResult();
             this.mc.displayGuiScreen(parentScreen);
         }
     }
@@ -198,22 +195,15 @@ public class GuiOutlineEditor extends GuiScreen {
         if (guiButton.enabled) {
             //done button
             if (guiButton.id == 1) {
-                this.saveToSettings();
-                this.mc.gameSettings.saveOptions();
+                this.saveResult();
                 this.mc.displayGuiScreen(parentScreen);
             }
         }
     }
 
-    public void saveToSettings() {
+    public void saveResult() {
         this.handleResult.accept(((this.alpha & 0xFF) << 24) | ((this.red & 0xFF) << 16) | ((this.green & 0xFF) << 8) | (this.blue & 0xFF));
     }
-
-//    public void saveToSettings() {
-//        //save width
-////        BootifulBlockOutline.CONFIG.selectionBoxWidth = Math.round((1f + this.widthSlider.sliderValue * 3f) * 10f) / 10f;
-////        BootifulBlockOutline.forceSaveConfig();
-//    }
 
     /* ===== ===== RGB TEXT/SLIDER METHODS ===== ===== */
 
@@ -221,7 +211,7 @@ public class GuiOutlineEditor extends GuiScreen {
      * Applies update edits from text fields
      * lol
      */
-    private void applyEditsFromText() {
+    private void onUpdateFromTextFields() {
         //apply values
         this.red = BootifulBlockOutline.safeStringToShort(this.redIntTextField.getText());
         this.green = BootifulBlockOutline.safeStringToShort(this.greenIntTextField.getText());
@@ -229,14 +219,14 @@ public class GuiOutlineEditor extends GuiScreen {
         this.alpha = BootifulBlockOutline.safeStringToShort(this.alphaIntTextField.getText());
 
         //force update of sliders values
-        this.updateSliders();
-        this.updateHexTextField();
+        this.updateSlidersDisplayString();
+        this.updateHexTextFieldDisplayString();
     }
 
     /**
      * Applies update edits from sliders
      */
-    void applyEditsFromSliders() {
+    public void onUpdateFromSliders() {
         //apply values
         this.red = (short) (this.redIntSlider.sliderValue * 255.0F + 0.5F);
         this.green = (short) (this.greenIntSlider.sliderValue * 255.0F + 0.5F);
@@ -250,17 +240,14 @@ public class GuiOutlineEditor extends GuiScreen {
         this.alphaIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.alpha", this.alpha);
 
         //force update of text fields values
-        this.updateTextFields();
-        this.updateHexTextField();
-
-        //force update width slider string
-        //this.widthSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.width", String.format("%.1f", 1f + this.widthSlider.sliderValue * 3f));
+        this.updateTextFieldsDisplayString();
+        this.updateHexTextFieldDisplayString();
     }
 
     /**
      * Applies update edits from the hex text field
      */
-    private void applyEditsFromHexField() {
+    private void onUpdateFromHexField() {
         final String safeHex = BootifulBlockOutline.fixColorHex(this.hexTextField.getText());
 
         this.alpha = (short) Integer.parseInt(safeHex.substring(0, 2), 16);
@@ -268,17 +255,16 @@ public class GuiOutlineEditor extends GuiScreen {
         this.green = (short) Integer.parseInt(safeHex.substring(4, 6), 16);
         this.blue = (short) Integer.parseInt(safeHex.substring(6, 8), 16);
 
-        this.updateSliders();
-        this.updateTextFields();
+        this.updateSlidersDisplayString();
+        this.updateTextFieldsDisplayString();
     }
-
 
     /**
      * Update sliders data to current RGB values
      * <br>
      * Primarily edits {@link GuiSlider#sliderValue} and {@link GuiSlider#displayString}
      */
-    private void updateSliders() {
+    private void updateSlidersDisplayString() {
         this.redIntSlider.sliderValue = this.red / 255.0F;
         this.greenIntSlider.sliderValue = this.green / 255.0F;
         this.blueIntSlider.sliderValue = this.blue / 255.0F;
@@ -296,7 +282,7 @@ public class GuiOutlineEditor extends GuiScreen {
      * <br>
      * Primarily edits {@link GuiTextField#text} value
      */
-    private void updateTextFields() {
+    private void updateTextFieldsDisplayString() {
         this.redIntTextField.setText(String.valueOf(this.red));
         this.greenIntTextField.setText(String.valueOf(this.green));
         this.blueIntTextField.setText(String.valueOf(this.blue));
@@ -311,7 +297,7 @@ public class GuiOutlineEditor extends GuiScreen {
     /**
      * Update hex text field data to current RGB value
      */
-    private void updateHexTextField() {
+    private void updateHexTextFieldDisplayString() {
         final String formatted = String.format("%02X%02X%02X%02X", this.alpha, this.red, this.green, this.blue);
         this.hexTextField.setText(formatted);
         this.hexTextField.moveCursorBy(6);
