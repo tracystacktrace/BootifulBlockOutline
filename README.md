@@ -1,10 +1,8 @@
 # Bootiful Block Outline
 
-A small mod that expands the "block outline" settings with more practical features!
+A small mod that expands the "block outline" settings with more practical features! It's not only about block outlines; we're talking about entity hitbox outlines!
 
 Accessible via "**Options**" -> "**Video Settings...**" -> "**Block/Entity Outline**"
-
-That's... all
 
 This is a client-side mod, which uses [FoxLoader](https://github.com/Fox2Code/FoxLoader) mod loader for ReIndev (2.9)
 
