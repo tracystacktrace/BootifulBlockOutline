@@ -1,18 +1,18 @@
 # Bootiful Block Outline
 
-A small mod that expands the "block outline" settings for more convenient configuration!
+A small mod that expands the "block outline" settings with more practical features!
+
+Accessible via "**Options**" -> "**Video Settings...**" -> "**Block/Entity Outline**"
 
 That's... all
 
 This is a client-side mod, which uses [FoxLoader](https://github.com/Fox2Code/FoxLoader) mod loader for ReIndev (2.9)
 
-![alt text](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/gui.png)
+![Mod Showcase Image](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/showcase_4.png)
 
-## Quick Guide
-
-You can input the color either using sliders or text fields.
-
-![alt text](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/gui_with_help.png)
+![Configuration Screenshot](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/showcase_1.png)
+![Configuration Screenshot](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/showcase_2.png)
+![Configuration Screenshot](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/showcase_3.png)
 
 ## Installation
 
