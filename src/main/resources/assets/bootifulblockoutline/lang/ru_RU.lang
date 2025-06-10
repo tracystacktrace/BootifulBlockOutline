@@ -4,6 +4,7 @@ bootifulblockoutline.mode.rgb=Цветной
 bootifulblockoutline.red=Красный: %s
 bootifulblockoutline.green=Зеленый: %s
 bootifulblockoutline.blue=Синий: %s
+bootifulblockoutline.alpha=Альфа: %s
 bootifulblockoutline.width=Толщина: %s
 
 config.bootifulblockoutline.selectionBoxWidth.name=§cИСПОЛЬЗУЙТЕ МЕНЮ!!!§r

@@ -4,10 +4,11 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlider;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.util.GameSettings;
 import net.minecraft.common.util.i18n.StringTranslate;
 import net.tracystacktrace.bootifulblockoutline.BootifulBlockOutline;
 import org.lwjgl.input.Keyboard;
+
+import java.util.function.IntConsumer;
 
 public class GuiOutlineEditor extends GuiScreen {
 
@@ -26,24 +27,31 @@ public class GuiOutlineEditor extends GuiScreen {
     private GuiSliderCompact blueIntSlider;
     private short blue;
 
-    //Width
-    private GuiSliderCompact widthSlider;
+    //Alpha
+    private GuiTextField alphaIntTextField;
+    private GuiSliderCompact alphaIntSlider;
+    private short alpha;
 
     //Common
-    private byte outlineMode = 0; //0 for default (RGB), 1 for silver mode
     private GuiTextField hexTextField;
 
     //Internal
     private final GuiScreen parentScreen;
-    protected final String screenTitle = StringTranslate.getInstance().translateKey("gui.editBlockOutline");
+    private final IntConsumer handleResult;
+    protected final String screenTitle;
 
-    public GuiOutlineEditor(GuiScreen parentScreen) {
+    public GuiOutlineEditor(GuiScreen parentScreen, String title, int argb, IntConsumer onAcceptChange) {
         this.parentScreen = parentScreen;
+        this.screenTitle = StringTranslate.getInstance().translateKey(title);
+        this.handleResult = onAcceptChange;
+        this.alpha = (short) ((argb >> 24) & 0xFF);
+        this.red = (short) ((argb >> 16) & 0xFF);
+        this.green = (short) ((argb >> 8) & 0xFF);
+        this.blue = (short) ((argb) & 0xFF);
     }
 
     @Override
     public void initGui() {
-        this.fetchPreviousValue();
         this.controlList.clear();
         Keyboard.enableRepeatEvents(true);
 
@@ -53,26 +61,28 @@ public class GuiOutlineEditor extends GuiScreen {
         final StringTranslate translate = StringTranslate.getInstance();
 
         //buttons init
-        this.controlList.add(new GuiButton(0, this.width / 2 - 100, offsetY + 120, 90, 20, translate.translateKey("bootifulblockoutline.mode." + (this.outlineMode == 0 ? "default" : "rgb"))));
-        this.controlList.add(new GuiButton(1, this.width / 2 + 10, offsetY + 120, 90, 20, translate.translateKey("gui.done")));
+        this.controlList.add(new GuiButton(1, this.width / 2 - 45, offsetY + 120, 90, 20, translate.translateKey("gui.done")));
 
         //sliders init
         this.redIntSlider = new GuiSliderCompact(2, offsetX, offsetY, translate.translateKeyFormat("bootifulblockoutline.red", this.red), this.red / 255.0F, this);
         this.greenIntSlider = new GuiSliderCompact(3, offsetX, offsetY + 30, translate.translateKeyFormat("bootifulblockoutline.green", this.green), this.green / 255.0F, this);
         this.blueIntSlider = new GuiSliderCompact(4, offsetX, offsetY + 60, translate.translateKeyFormat("bootifulblockoutline.blue", this.blue), this.blue / 255.0F, this);
+        this.alphaIntSlider = new GuiSliderCompact(5, offsetX, offsetY + 90, translate.translateKeyFormat("bootifulblockoutline.alpha", this.alpha), this.alpha / 255.0F, this);
 
         this.controlList.add(this.redIntSlider);
         this.controlList.add(this.greenIntSlider);
         this.controlList.add(this.blueIntSlider);
+        this.controlList.add(this.alphaIntSlider);
 
         //width sliders
-        this.widthSlider = new GuiSliderCompact(5, offsetX, offsetY + 90, 240, translate.translateKeyFormat("bootifulblockoutline.width", BootifulBlockOutline.CONFIG.selectionBoxWidth), Math.round(((BootifulBlockOutline.CONFIG.selectionBoxWidth - 1f) / 3f) * 10f) / 10f, this);
-        this.controlList.add(this.widthSlider);
+        //this.widthSlider = new GuiSliderCompact(5, offsetX, offsetY + 90, 240, translate.translateKeyFormat("bootifulblockoutline.width", BootifulBlockOutline.CONFIG.selectionBoxWidth), Math.round(((BootifulBlockOutline.CONFIG.selectionBoxWidth - 1f) / 3f) * 10f) / 10f, this);
+        //this.controlList.add(this.widthSlider);
 
         //text fields init
         this.redIntTextField = new GuiTextField(offsetX + 110, offsetY, 50, 20, String.valueOf(this.red));
         this.greenIntTextField = new GuiTextField(offsetX + 110, offsetY + 30, 50, 20, String.valueOf(this.green));
         this.blueIntTextField = new GuiTextField(offsetX + 110, offsetY + 60, 50, 20, String.valueOf(this.blue));
+        this.alphaIntTextField = new GuiTextField(offsetX + 110, offsetY + 90, 50, 20, String.valueOf(this.alpha));
 
         this.redIntTextField.setMaxStringLength(3);
         this.redIntTextField.isEnabled = true;
@@ -83,14 +93,14 @@ public class GuiOutlineEditor extends GuiScreen {
         this.blueIntTextField.setMaxStringLength(3);
         this.blueIntTextField.isEnabled = true;
 
+        this.alphaIntTextField.setMaxStringLength(3);
+        this.alphaIntTextField.isEnabled = true;
+
         //hex field
         this.hexTextField = new GuiTextField(offsetX + 170, offsetY, 70, 20, "");
-        this.hexTextField.setMaxStringLength(6);
+        this.hexTextField.setMaxStringLength(8);
         this.hexTextField.isEnabled = true;
         this.updateHexTextField();
-
-        //toggle if silver mode
-        this.toggleOutlineMode(this.outlineMode == 0);
     }
 
     @Override
@@ -104,23 +114,29 @@ public class GuiOutlineEditor extends GuiScreen {
         this.redIntTextField.updateCursorCounter();
         this.greenIntTextField.updateCursorCounter();
         this.blueIntTextField.updateCursorCounter();
+        this.alphaIntTextField.updateCursorCounter();
         this.hexTextField.updateCursorCounter();
     }
 
     @Override
     public void keyTyped(char eventChar, int eventKey) {
-        if (this.redIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey)) {
+        if (this.redIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.red, eventChar)) {
             this.redIntTextField.textboxKeyTyped(eventChar, eventKey);
             this.applyEditsFromText();
         }
 
-        if (this.greenIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey)) {
+        if (this.greenIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.green, eventChar)) {
             this.greenIntTextField.textboxKeyTyped(eventChar, eventKey);
             this.applyEditsFromText();
         }
 
-        if (this.blueIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey)) {
+        if (this.blueIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.blue, eventChar)) {
             this.blueIntTextField.textboxKeyTyped(eventChar, eventKey);
+            this.applyEditsFromText();
+        }
+
+        if (this.alphaIntTextField.isFocused && BootifulBlockOutline.allowedEditKey(eventChar, eventKey) && BootifulBlockOutline.withinUnsignedByte(this.alpha, eventChar)) {
+            this.alphaIntTextField.textboxKeyTyped(eventChar, eventKey);
             this.applyEditsFromText();
         }
 
@@ -148,6 +164,7 @@ public class GuiOutlineEditor extends GuiScreen {
         this.redIntTextField.mouseClicked(x, y, click);
         this.greenIntTextField.mouseClicked(x, y, click);
         this.blueIntTextField.mouseClicked(x, y, click);
+        this.alphaIntTextField.mouseClicked(x, y, click);
         this.hexTextField.mouseClicked(x, y, click);
     }
 
@@ -158,6 +175,7 @@ public class GuiOutlineEditor extends GuiScreen {
         this.redIntTextField.drawTextBox();
         this.greenIntTextField.drawTextBox();
         this.blueIntTextField.drawTextBox();
+        this.alphaIntTextField.drawTextBox();
         this.hexTextField.drawTextBox();
 
         final int offsetX = this.width / 2 - 120;
@@ -170,8 +188,8 @@ public class GuiOutlineEditor extends GuiScreen {
         //draw color
         drawRect(
                 offsetX + 170, offsetY + 15,
-                offsetX + 170 + 70, offsetY + 15 + 50,
-                (this.outlineMode == 0) ? ((0xFF << 24) | ((this.red & 0xFF) << 16) | ((this.green & 0xFF) << 8) | (this.blue & 0xFF)) : BootifulBlockOutline.getSilverARGB()
+                offsetX + 170 + 70, offsetY + 15 + 80,
+                ((this.alpha & 0xFF) << 24) | ((this.red & 0xFF) << 16) | ((this.green & 0xFF) << 8) | (this.blue & 0xFF)
         );
     }
 
@@ -184,76 +202,18 @@ public class GuiOutlineEditor extends GuiScreen {
                 this.mc.gameSettings.saveOptions();
                 this.mc.displayGuiScreen(parentScreen);
             }
-
-            //toggle silver mode
-            if (guiButton.id == 0) {
-                this.outlineMode = (byte) ((this.outlineMode == 0) ? 1 : 0);
-                this.toggleOutlineMode(this.outlineMode == 0);
-                guiButton.displayString = StringTranslate.getInstance().translateKey("bootifulblockoutline.mode." + (this.outlineMode == 0 ? "default" : "rgb"));
-            }
-        }
-    }
-
-    public void toggleOutlineMode(boolean rgbMode) {
-        //safely de-focus fields
-        this.redIntTextField.isFocused = false;
-        this.greenIntTextField.isFocused = false;
-        this.blueIntTextField.isFocused = false;
-        this.hexTextField.isFocused = false;
-
-        //toggle stuff
-
-        this.redIntTextField.isEnabled = rgbMode;
-        this.greenIntTextField.isEnabled = rgbMode;
-        this.blueIntTextField.isEnabled = rgbMode;
-        this.hexTextField.isEnabled = rgbMode;
-
-        this.redIntSlider.enabled = rgbMode;
-        this.greenIntSlider.enabled = rgbMode;
-        this.blueIntSlider.enabled = rgbMode;
-    }
-
-    private void fetchPreviousValue() {
-        //silver (aka rainbow) mode
-        if (GameSettings.outlineColor.equals("silver")) {
-            this.outlineMode = 1;
-            return;
-        }
-
-        //empty (black) string
-        if (GameSettings.outlineColor.isEmpty() || GameSettings.outlineColor.equals("0x")) {
-            this.outlineMode = 0;
-            this.red = this.green = this.blue = 0;
-            return;
-        }
-
-        //hex string to R, G and B
-        if (GameSettings.outlineColor.length() == 6) {
-            this.red = (short) Integer.parseInt(GameSettings.outlineColor.substring(0, 2), 16);
-            this.green = (short) Integer.parseInt(GameSettings.outlineColor.substring(2, 4), 16);
-            this.blue = (short) Integer.parseInt(GameSettings.outlineColor.substring(4, 6), 16);
         }
     }
 
     public void saveToSettings() {
-        //save width
-        BootifulBlockOutline.CONFIG.selectionBoxWidth = Math.round((1f + this.widthSlider.sliderValue * 3f) * 10f) / 10f;
-        BootifulBlockOutline.forceSaveConfig();
-
-        if (outlineMode == 1) {
-            GameSettings.outlineColor = "silver";
-            GameSettings.outlineColorChanged = true;
-            return;
-        }
-
-        if (this.red == 0 && this.green == 0 && this.blue == 0) {
-            GameSettings.outlineColor = "0x";
-            GameSettings.outlineColorChanged = false;
-        } else {
-            GameSettings.outlineColor = String.format("%02X%02X%02X", this.red, this.green, this.blue);
-            GameSettings.outlineColorChanged = true;
-        }
+        this.handleResult.accept(((this.alpha & 0xFF) << 24) | ((this.red & 0xFF) << 16) | ((this.green & 0xFF) << 8) | (this.blue & 0xFF));
     }
+
+//    public void saveToSettings() {
+//        //save width
+////        BootifulBlockOutline.CONFIG.selectionBoxWidth = Math.round((1f + this.widthSlider.sliderValue * 3f) * 10f) / 10f;
+////        BootifulBlockOutline.forceSaveConfig();
+//    }
 
     /* ===== ===== RGB TEXT/SLIDER METHODS ===== ===== */
 
@@ -266,6 +226,7 @@ public class GuiOutlineEditor extends GuiScreen {
         this.red = BootifulBlockOutline.safeStringToShort(this.redIntTextField.getText());
         this.green = BootifulBlockOutline.safeStringToShort(this.greenIntTextField.getText());
         this.blue = BootifulBlockOutline.safeStringToShort(this.blueIntTextField.getText());
+        this.alpha = BootifulBlockOutline.safeStringToShort(this.alphaIntTextField.getText());
 
         //force update of sliders values
         this.updateSliders();
@@ -280,18 +241,20 @@ public class GuiOutlineEditor extends GuiScreen {
         this.red = (short) (this.redIntSlider.sliderValue * 255.0F + 0.5F);
         this.green = (short) (this.greenIntSlider.sliderValue * 255.0F + 0.5F);
         this.blue = (short) (this.blueIntSlider.sliderValue * 255.0F + 0.5F);
+        this.alpha = (short) (this.alphaIntSlider.sliderValue * 255.0F + 0.5F);
 
         final StringTranslate translate = StringTranslate.getInstance();
         this.redIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.red", this.red);
         this.greenIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.green", this.green);
         this.blueIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.blue", this.blue);
+        this.alphaIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.alpha", this.alpha);
 
         //force update of text fields values
         this.updateTextFields();
         this.updateHexTextField();
 
         //force update width slider string
-        this.widthSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.width", String.format("%.1f", 1f + this.widthSlider.sliderValue * 3f));
+        //this.widthSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.width", String.format("%.1f", 1f + this.widthSlider.sliderValue * 3f));
     }
 
     /**
@@ -300,9 +263,10 @@ public class GuiOutlineEditor extends GuiScreen {
     private void applyEditsFromHexField() {
         final String safeHex = BootifulBlockOutline.autoCompleteHex(this.hexTextField.getText());
 
-        this.red = (short) Integer.parseInt(safeHex.substring(0, 2), 16);
-        this.green = (short) Integer.parseInt(safeHex.substring(2, 4), 16);
-        this.blue = (short) Integer.parseInt(safeHex.substring(4, 6), 16);
+        this.alpha = (short) Integer.parseInt(safeHex.substring(0, 2), 16);
+        this.red = (short) Integer.parseInt(safeHex.substring(2, 4), 16);
+        this.green = (short) Integer.parseInt(safeHex.substring(4, 6), 16);
+        this.blue = (short) Integer.parseInt(safeHex.substring(6, 8), 16);
 
         this.updateSliders();
         this.updateTextFields();
@@ -318,11 +282,13 @@ public class GuiOutlineEditor extends GuiScreen {
         this.redIntSlider.sliderValue = this.red / 255.0F;
         this.greenIntSlider.sliderValue = this.green / 255.0F;
         this.blueIntSlider.sliderValue = this.blue / 255.0F;
+        this.alphaIntSlider.sliderValue = this.alpha / 255.0F;
 
         final StringTranslate translate = StringTranslate.getInstance();
         this.redIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.red", this.red);
         this.greenIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.green", this.green);
         this.blueIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.blue", this.blue);
+        this.alphaIntSlider.displayString = translate.translateKeyFormat("bootifulblockoutline.alpha", this.alpha);
     }
 
     /**
@@ -334,17 +300,19 @@ public class GuiOutlineEditor extends GuiScreen {
         this.redIntTextField.setText(String.valueOf(this.red));
         this.greenIntTextField.setText(String.valueOf(this.green));
         this.blueIntTextField.setText(String.valueOf(this.blue));
+        this.alphaIntTextField.setText(String.valueOf(this.alpha));
 
         this.redIntTextField.moveCursorBy(4);
         this.greenIntTextField.moveCursorBy(4);
         this.blueIntTextField.moveCursorBy(4);
+        this.alphaIntTextField.moveCursorBy(4);
     }
 
     /**
      * Update hex text field data to current RGB value
      */
     private void updateHexTextField() {
-        final String formatted = String.format("%02X%02X%02X", this.red, this.green, this.blue);
+        final String formatted = String.format("%02X%02X%02X%02X", this.alpha, this.red, this.green, this.blue);
         this.hexTextField.setText(formatted);
         this.hexTextField.moveCursorBy(6);
     }
