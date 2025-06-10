@@ -36,7 +36,7 @@ public class GuiChangeWithSlider extends GuiScreen implements IUpdateSliders {
         final int offsetX = this.width / 2 - 100;
         final int offsetY = this.height / 2 - 25;
 
-        this.slider = new GuiSliderCompact(0, offsetX, offsetY, 200, "", BootifulBlockOutline.normalizeFloat(this.value, 1f, 4f), this);
+        this.slider = new GuiSliderCompact(0, offsetX, offsetY, 200, "", BootifulBlockOutline.normalizeFloat(this.value, 1f, 3f), this);
         this.controlList.add(this.slider);
 
         final StringTranslate translate = StringTranslate.getInstance();
@@ -52,7 +52,7 @@ public class GuiChangeWithSlider extends GuiScreen implements IUpdateSliders {
         if (guiButton.enabled) {
             if (guiButton.id == 1) {
                 this.value = initialValue;
-                this.slider.sliderValue = BootifulBlockOutline.normalizeFloat(this.initialValue, 1f, 4f);
+                this.slider.sliderValue = BootifulBlockOutline.normalizeFloat(this.initialValue, 1f, 3f);
                 this.slider.displayString = StringTranslate.getInstance().translateKeyFormat(this.name, this.value);
                 return;
             }
@@ -77,7 +77,7 @@ public class GuiChangeWithSlider extends GuiScreen implements IUpdateSliders {
 
     @Override
     public void onUpdateFromSliders() {
-        this.value = BootifulBlockOutline.denormalizeFloat(this.slider.sliderValue, 1f, 4f);
+        this.value = BootifulBlockOutline.denormalizeFloat(this.slider.sliderValue, 1f, 3f);
         this.slider.displayString = StringTranslate.getInstance().translateKeyFormat(this.name, this.value);
     }
 }

@@ -1,10 +1,11 @@
 
-## [1.1.1] - 2025-06-10
+## [1.2] - 2025-06-10
 
+- Entirely new configuration GUI for this mod
 - Temporarily limited the outline width to 4 due to specific render issues
 - Added `alpha` option for outline color
-- Entirely new configuration GUI for outline block
-- Added entity hitbox outline option
+- Added entity outline! You can enable and change behavior in configuration menu!
+- Small redesign
 
 ## [1.1] - 2025-06-09
 The codebase got updated to use Foxloader 2.0-alpha14 version.
