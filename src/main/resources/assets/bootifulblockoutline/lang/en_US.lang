@@ -1,12 +1,17 @@
 bootifulblockoutline.mode.default=Default Mode
 bootifulblockoutline.mode.rgb=Silver Mode
 
+bootifulblockoutline.config.title=Configure Block/Entity Outline
+bootifulblockoutline.config.block=Block Outline: %s
+bootifulblockoutline.config.entity=Entity Outline: %s
+
+bootifulblockoutline.button.argb=§fA§cR§aG§9B
+bootifulblockoutline.button.width=§f← - →
+
+bootifulblockoutline.reset=Reset
+
 bootifulblockoutline.red=Red: %s
 bootifulblockoutline.green=Green: %s
 bootifulblockoutline.blue=Blue: %s
 bootifulblockoutline.alpha=Alpha: %s
 bootifulblockoutline.width=Width: %s
-
-bootifulblockoutline.reset=Reset
-
-config.bootifulblockoutline.selectionBoxWidth.name=§cPlease use GUI!!!§r
