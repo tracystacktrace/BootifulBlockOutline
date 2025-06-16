@@ -17,7 +17,7 @@ bootifulblockoutline.slider.width.block=Ширина контура блока: 
 bootifulblockoutline.slider.width.entity=Ширина контура существа: %s
 
 bootifulblockoutline.reset=Сбросить
-bootifulblockoutline.static=Один цвет
+bootifulblockoutline.static=Статический
 bootifulblockoutline.rainbow=Радуга
 bootifulblockoutline.disabled=Выключено
 

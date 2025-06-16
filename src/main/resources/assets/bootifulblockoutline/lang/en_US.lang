@@ -18,7 +18,7 @@ bootifulblockoutline.slider.width.entity=Entity Outline Width: %s
 
 bootifulblockoutline.reset=Reset
 bootifulblockoutline.static=Static Color
-bootifulblockoutline.rainbow=RGB
+bootifulblockoutline.rainbow=Rainbow
 bootifulblockoutline.disabled=Disabled
 
 bootifulblockoutline.red=Red: %s

@@ -55,12 +55,7 @@ public class BootifulBlockOutline extends Mod {
             return damaged.substring(0, 8);
         }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(damaged);
-        for (int i = 0; i < 8 - damaged.length(); i++) {
-            builder.append('0');
-        }
-        return builder.toString();
+        return damaged + "0".repeat(8 - damaged.length());
     }
 
     public static float normalizeFloat(float value, float lower, float upper) {
@@ -105,9 +100,5 @@ public class BootifulBlockOutline extends Mod {
         @ConfigEntry(lowerBounds = 1.0, upperBounds = 4.0)
         public float entityOutlineWidth = 2.0f;
 
-        /* work in progress */
-
-//        @ConfigEntry(configComment = "Follows 0xAARRGGBB format but int")
-//        public int colorOutlineUnbreakable = 0xFF000000; //AARRGGBB
     }
 }

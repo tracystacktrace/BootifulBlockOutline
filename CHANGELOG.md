@@ -1,4 +1,9 @@
 
+## [1.2.1] - 2025-06-16
+The codebase got updated to use FoxLoader 2.0-alpha22 version (ReIndev 2.9_02)
+
+- Fixed some translation
+
 ## [1.2] - 2025-06-10
 
 - Entirely new configuration GUI for this mod
