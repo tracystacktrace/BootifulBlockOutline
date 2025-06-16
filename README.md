@@ -1,6 +1,6 @@
 # Bootiful Block Outline
 
-A small mod that expands the "block outline" settings with more practical features! It's not only about block outlines; we're talking about entity hitbox outlines!
+A small mod that expands the "block outline" settings with more practical features! It's not only about block outlines; we're also talking about entity hitbox outlines!
 
 Accessible via "**Options**" -> "**Video Settings...**" -> "**Block/Entity Outline**"
 
