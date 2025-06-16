@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'foxloader.dev'
 
 group = 'net.tracystacktrace'
-version = '1.2'
+version = '1.2.1'
 
 dependencies {
     api 'org.semver4j:semver4j:5.3.0'
@@ -34,10 +34,10 @@ foxloader {
     modVersion = project.version
     modAuthors = "tracystacktrace"
     modMain = "net.tracystacktrace.bootifulblockoutline.BootifulBlockOutline"
-    modDesc("\u00A7dAdvanced block/entity outline settings!")
+    modDesc("\u00A7dAdvanced \u00A7eBlock\u00A7d/\u00A7eEntity\u00A7d outline settings!")
     modDesc()
     modDesc("\u00A76Configuration can be accessed via:")
-    modDesc("\u00A76[Options] -> [Video Settings...] -> [Block/Entity Outline]")
+    modDesc("\u00A76[\u00A73Options\u00A76] -> [\u00A73Video Settings...\u00A76] -> [\u00A73Block/Entity Outline\u00A76]")
     modDesc()
     modDesc("\u00A76License: \u00A7aApache License 2.0")
     modDesc("\u00A76Sources: \u00A79https://github.com/tracystacktrace/BootifulBlockOutline")
