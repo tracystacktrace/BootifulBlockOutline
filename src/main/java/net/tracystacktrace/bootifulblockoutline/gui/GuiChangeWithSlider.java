@@ -42,7 +42,7 @@ public class GuiChangeWithSlider extends GuiScreen implements IUpdateSliders {
         final StringTranslate translate = StringTranslate.getInstance();
 
         this.controlList.add(new GuiButton(1, offsetX, offsetY + 30, 95, 20, translate.translateKey("bootifulblockoutline.reset")));
-        this.controlList.add(new GuiButton(2, offsetX + 105, offsetY + 30, 95, 20, translate.translateKey("gui.done")));
+        this.controlList.add(new GuiButton(2, offsetX + 105, offsetY + 30, 95, 20, translate.translateKey("bootifulblockoutline.save")));
 
         this.onUpdateFromSliders();
     }

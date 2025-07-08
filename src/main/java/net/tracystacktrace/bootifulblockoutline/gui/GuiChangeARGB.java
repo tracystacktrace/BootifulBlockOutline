@@ -63,7 +63,7 @@ public class GuiChangeARGB extends GuiScreen implements IUpdateSliders {
         final StringTranslate translate = StringTranslate.getInstance();
 
         //buttons init
-        this.controlList.add(new GuiButton(1, this.width / 2 - 45, offsetY + 120, 90, 20, translate.translateKey("gui.done")));
+        this.controlList.add(new GuiButton(1, this.width / 2 - 45, offsetY + 120, 90, 20, translate.translateKey("bootifulblockoutline.save")));
 
         //sliders init
         this.redIntSlider = new GuiSliderCompact(2, offsetX, offsetY, translate.translateKeyFormat("bootifulblockoutline.red", this.red), this.red / 255.0F, this);

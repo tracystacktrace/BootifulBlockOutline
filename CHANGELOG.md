@@ -1,4 +1,10 @@
 
+## [1.2.2] - 2025-07-08
+
+- Added "Save" and "Save & Close" as better namings for close buttons
+- Updated to recent FoxLoader version
+- Internal config code changes (using `GuiConfigProviderConfigObject`)
+
 ## [1.2.1] - 2025-06-16
 The codebase got updated to use FoxLoader 2.0-alpha22 version (ReIndev 2.9_02)
 

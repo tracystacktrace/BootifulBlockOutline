@@ -1,9 +1,12 @@
 package net.tracystacktrace.bootifulblockoutline;
 
+import com.fox2code.foxloader.client.gui.GuiConfigProviderConfigObject;
 import com.fox2code.foxloader.config.ConfigEntry;
 import com.fox2code.foxloader.config.ConfigIO;
 import com.fox2code.foxloader.loader.Mod;
 import com.fox2code.foxloader.loader.ModContainer;
+import net.minecraft.client.gui.GuiScreen;
+import net.tracystacktrace.bootifulblockoutline.gui.GuiHomeConfig;
 
 import java.awt.*;
 
@@ -70,7 +73,7 @@ public class BootifulBlockOutline extends Mod {
         return (Color.HSBtoRGB((float) (System.currentTimeMillis() % 5000L) / 5000.0F, 1.0F, 1.0F) & 16777215) | 0xFF000000;
     }
 
-    public static class ModConfig {
+    public static class ModConfig implements GuiConfigProviderConfigObject {
 
         /* block hitbox */
 
@@ -100,5 +103,11 @@ public class BootifulBlockOutline extends Mod {
         @ConfigEntry(lowerBounds = 1.0, upperBounds = 4.0)
         public float entityOutlineWidth = 2.0f;
 
+        /* provider */
+
+        @Override
+        public GuiScreen provideConfigScreen(GuiScreen parent) {
+            return new GuiHomeConfig(parent);
+        }
     }
 }

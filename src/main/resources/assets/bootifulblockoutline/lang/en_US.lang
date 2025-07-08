@@ -16,6 +16,8 @@ bootifulblockoutline.button.width=§f← - →
 bootifulblockoutline.slider.width.block=Block Outline Width: %s
 bootifulblockoutline.slider.width.entity=Entity Outline Width: %s
 
+bootifulblockoutline.save=Save
+bootifulblockoutline.save_close=Save & Close
 bootifulblockoutline.reset=Reset
 bootifulblockoutline.static=Static Color
 bootifulblockoutline.rainbow=Rainbow

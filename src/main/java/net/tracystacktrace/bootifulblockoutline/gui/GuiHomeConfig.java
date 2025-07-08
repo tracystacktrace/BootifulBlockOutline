@@ -19,17 +19,23 @@ public class GuiHomeConfig extends GuiScreen {
     }
 
     @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        this.saveToConfig();
+    }
+
+    @Override
     public void initGui() {
         this.controlList.clear();
 
-        final int offsetX = this.width / 2 - 125;
+        final int offsetX = this.width / 2 - 129;
         final int offsetY = this.height / 2 - 45;
 
         final StringTranslate translate = StringTranslate.getInstance();
 
         //block outline management
         this.controlList.add(this.modeBlockOutline = new GuiButtonMultipleChoice(
-                0, offsetX, offsetY + 11, 160, 20,
+                0, offsetX, offsetY + 11, 168, 20,
                 translate.translateKey("bootifulblockoutline.config.block"),
                 new String[]{
                         translate.translateKey("bootifulblockoutline.disabled"),
@@ -37,12 +43,12 @@ public class GuiHomeConfig extends GuiScreen {
                         translate.translateKey("bootifulblockoutline.rainbow")
                 }
         ));
-        this.controlList.add(new GuiButton(2, offsetX + 210, offsetY + 11, 40, 20, translate.translateKey("bootifulblockoutline.button.width")));
-        this.controlList.add(new GuiButton(1, offsetX + 165, offsetY + 11, 40, 20, translate.translateKey("bootifulblockoutline.button.argb")));
+        this.controlList.add(new GuiButton(2, offsetX + 218, offsetY + 11, 40, 20, translate.translateKey("bootifulblockoutline.button.width")));
+        this.controlList.add(new GuiButton(1, offsetX + 173, offsetY + 11, 40, 20, translate.translateKey("bootifulblockoutline.button.argb")));
 
         //entity outline management
         this.controlList.add(this.modeEntityOutline = new GuiButtonMultipleChoice(
-                3, offsetX, offsetY + 11 + 25, 160, 20,
+                3, offsetX, offsetY + 11 + 25, 168, 20,
                 translate.translateKey("bootifulblockoutline.config.entity"),
                 new String[]{
                         translate.translateKey("bootifulblockoutline.disabled"),
@@ -50,10 +56,10 @@ public class GuiHomeConfig extends GuiScreen {
                         translate.translateKey("bootifulblockoutline.rainbow"),
                 }
         ));
-        this.controlList.add(new GuiButton(5, offsetX + 210, offsetY + 11 + 25, 40, 20, translate.translateKey("bootifulblockoutline.button.width")));
-        this.controlList.add(new GuiButton(4, offsetX + 165, offsetY + 11 + 25, 40, 20, translate.translateKey("bootifulblockoutline.button.argb")));
+        this.controlList.add(new GuiButton(5, offsetX + 218, offsetY + 11 + 25, 40, 20, translate.translateKey("bootifulblockoutline.button.width")));
+        this.controlList.add(new GuiButton(4, offsetX + 173, offsetY + 11 + 25, 40, 20, translate.translateKey("bootifulblockoutline.button.argb")));
 
-        this.controlList.add(new GuiButton(6, this.width / 2 - 45, offsetY + 11 + 55, 90, 20, translate.translateKey("gui.done")));
+        this.controlList.add(new GuiButton(6, this.width / 2 - 60, offsetY + 11 + 55, 120, 20, translate.translateKey("bootifulblockoutline.save_close")));
 
         this.modeBlockOutline.setElementIndex(BootifulBlockOutline.CONFIG.blockOutlineMode);
         this.modeEntityOutline.setElementIndex(BootifulBlockOutline.CONFIG.entityOutlineMode);
