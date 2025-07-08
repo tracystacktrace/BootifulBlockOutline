@@ -1,20 +1,29 @@
 # Bootiful Block Outline
 
-A small mod that expands the "block outline" settings with more practical features! It's not only about block outlines; we're also talking about entity hitbox outlines!
+A small FoxLoader (ReIndev) mod that expands the "Block Outline" settings with more practical features!
 
-Accessible via "**Options**" -> "**Video Settings...**" -> "**Block/Entity Outline**"
+Also, this mod adds support for custom entity outlines!
 
-This is a client-side mod, which uses [FoxLoader](https://github.com/Fox2Code/FoxLoader) mod loader for ReIndev (2.9)
+Current mod features:
+- Several modes for outlines (both block/entity):
+  - Static (ARGB, configurable)
+  - Rainbow
+  - Disabled (invisible)
+- Custom width (configurable)
+
+Settings are accessible via "**Options**" -> "**Video Settings...**" -> "**Block/Entity Outline**".
 
 ![Mod Showcase Image](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/showcase_4.png)
 
-![Configuration Screenshot](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/showcase_1.png)
-![Configuration Screenshot](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/showcase_2.png)
-![Configuration Screenshot](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/showcase_3.png)
+![Configuration Screenshot 1](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/showcase_1.png)
+![Configuration Screenshot 2](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/showcase_2.png)
+![Configuration Screenshot 3](https://github.com/tracystacktrace/BootifulBlockOutline/raw/main/docs/showcase_3.png)
 
 ## Installation
 
-Simply grab a `.jar` file from releases and put into `mods` folder of your instance!
+Ensure you have [FoxLoader](https://github.com/Fox2Code/FoxLoader) installed. Click at the link and follow instructions (`Installation` section). Or in a nutshell, grab `*-mmc.zip` file and export it to MultiMC/PrismLauncher.
+
+Simply download a `.jar` file and put it inside `mods` folder. That's all.
 
 Want to compile by yourself? Just download the sources and run the following command:
 ```shell

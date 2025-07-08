@@ -39,8 +39,8 @@ public class CustomOutlineRenderer {
                         .expand(
                                 hitResult.entityHit.rotationYaw != 0.0F && hitResult.entityHit.rotationYaw != 180.0F ? 0.006 : 0.002,
                                 0.001,
-                                hitResult.entityHit.rotationYaw != 90.0F && hitResult.entityHit.rotationYaw != 270.0F ? 0.006 : 0.002)
-                        .getOffsetBoundingBox(-x, -y, -z),
+                                hitResult.entityHit.rotationYaw != 90.0F && hitResult.entityHit.rotationYaw != 270.0F ? 0.006 : 0.002
+                        ).getOffsetBoundingBox(-x, -y, -z),
                 color, true
         );
 
