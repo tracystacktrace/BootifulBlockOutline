@@ -1,5 +1,7 @@
 # Bootiful Block Outline
 
+[![Available on - Modrinth](https://img.shields.io/badge/Available_on-Modrinth-4bab62?logo=modrinth&logoColor=white)](https://modrinth.com/mod/bootifulblockoutline) [![Running on - FoxLoader](https://img.shields.io/badge/Running_on-FoxLoader-orange)](https://github.com/Fox2Code/FoxLoader)
+
 A small FoxLoader (ReIndev) mod that expands the "Block Outline" settings with more practical features!
 
 Also, this mod adds support for custom entity outlines!
